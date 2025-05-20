@@ -26,7 +26,7 @@ services:
     env_file:
       - .env
     ports:
-      - "5001:80"                # FileStorageService → localhost:5001
+      - "5001:80"               
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80

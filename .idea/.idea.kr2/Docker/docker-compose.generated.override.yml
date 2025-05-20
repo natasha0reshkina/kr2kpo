@@ -1,0 +1,54 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.8"
+services:
+  fileanalysis:
+    build:
+      context: "/Users/nataliiaoreshkina/RiderProjects/kr2/FileAnalysisService"
+      dockerfile: "Dockerfile"
+      target: "build"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/FileAnalysisService.dll"
+    environment: {}
+    image: "fileanalysisservice:dev"
+    ports: []
+    volumes:
+    - "/Users/nataliiaoreshkina/RiderProjects/kr2/FileAnalysisService:/app:rw"
+    - "/Users/nataliiaoreshkina/RiderProjects/kr2:/src:rw"
+    - "/Users/nataliiaoreshkina/.nuget/packages:/root/.nuget/packages"
+    working_dir: "/app"
+  filestorage:
+    build:
+      context: "/Users/nataliiaoreshkina/RiderProjects/kr2/FileStorageService"
+      dockerfile: "Dockerfile"
+      target: "build"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/FileStorageService.dll"
+    environment: {}
+    image: "filestorageservice:dev"
+    ports: []
+    volumes:
+    - "/Users/nataliiaoreshkina/RiderProjects/kr2/FileStorageService:/app:rw"
+    - "/Users/nataliiaoreshkina/RiderProjects/kr2:/src:rw"
+    - "/Users/nataliiaoreshkina/.nuget/packages:/root/.nuget/packages"
+    working_dir: "/app"
+  gateway:
+    build:
+      context: "/Users/nataliiaoreshkina/RiderProjects/kr2/GatewayApi"
+      dockerfile: "Dockerfile"
+      target: "build"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/GatewayApi.dll"
+    environment: {}
+    image: "gatewayapi:dev"
+    ports: []
+    volumes:
+    - "/Users/nataliiaoreshkina/RiderProjects/kr2/GatewayApi:/app:rw"
+    - "/Users/nataliiaoreshkina/RiderProjects/kr2:/src:rw"
+    - "/Users/nataliiaoreshkina/.nuget/packages:/root/.nuget/packages"
+    working_dir: "/app"

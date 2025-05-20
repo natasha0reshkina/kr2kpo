@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: ./GatewayApi
+      dockerfile: Dockerfile
+    container_name: kr2_gateway
+    env_file:
+      - .env
+    ports:
+      - "8080:80"            
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - filestorage
+      - fileanalysis
+    restart: on-failure
+
+  filestorage:
+    build:
+      context: ./FileStorageService
+      dockerfile: Dockerfile
+    container_name: kr2_filestorage
+    env_file:
+      - .env
+    ports:
+      - "5001:80"                # FileStorageService → localhost:5001
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - postgres
+    restart: on-failure
+
+  fileanalysis:
+    build:
+      context: ./FileAnalysisService
+      dockerfile: Dockerfile
+    container_name: kr2_fileanalysis
+    env_file:
+      - .env
+    ports:
+      - "5002:80"        
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - postgres
+    restart: on-failure
+
+  postgres:
+    image: postgres:15
+    container_name: kr2_postgres
+    env_file:
+      - .env
+    ports:
+      - "5430:5432"         
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: on-failure
+
+volumes:
+  pgdata:

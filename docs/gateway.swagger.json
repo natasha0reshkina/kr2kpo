@@ -1,0 +1,151 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Gateway API",
+    "version": "v1"
+  },
+  "paths": {
+    "/files": {
+      "post": {
+        "summary": "Upload file",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Uploaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/files/{id}": {
+      "get": {
+        "summary": "Download file",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File stream",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "404": { "description": "Not Found" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/analysis/stats": {
+      "post": {
+        "summary": "Get text statistics",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/FileContentDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stats result",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/StatsDto" }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/analysis/compare": {
+      "post": {
+        "summary": "Compare text for duplication",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/FileContentDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Compare result",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CompareResultDto" }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FileContentDto": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string" }
+        },
+        "required": ["text"]
+      },
+      "StatsDto": {
+        "type": "object",
+        "properties": {
+          "paragraphs": { "type": "integer" },
+          "words": { "type": "integer" },
+          "characters": { "type": "integer" }
+        }
+      },
+      "CompareResultDto": {
+        "type": "object",
+        "properties": {
+          "isDuplicate": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

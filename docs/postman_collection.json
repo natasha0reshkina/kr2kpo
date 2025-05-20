@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "KR2 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Gateway - Upload file",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "/path/to/report.txt"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/files",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["files"]
+        }
+      }
+    },
+    {
+      "name": "Gateway - Get file",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/files/{{fileId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["files", "{{fileId}}"]
+        }
+      }
+    },
+    {
+      "name": "Gateway - Stats",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"text\":\"Hello world!\"}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/analysis/stats",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["analysis", "stats"]
+        }
+      }
+    },
+    {
+      "name": "Gateway - Compare",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"text\":\"Test content\"}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/analysis/compare",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["analysis", "compare"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "File Analysis Service API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/analysis/stats": {
+      "post": {
+        "summary": "Calculate text statistics",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/FileContentDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Statistics",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/StatsDto" }
+              }
+            }
+          },
+          "400": { "description": "Bad Request" }
+        }
+      }
+    },
+    "/api/analysis/compare": {
+      "post": {
+        "summary": "Compare text duplication",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/FileContentDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Comparison result",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CompareResultDto" }
+              }
+            }
+          },
+          "400": { "description": "Bad Request" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FileContentDto": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string" }
+        },
+        "required": ["text"]
+      },
+      "StatsDto": {
+        "type": "object",
+        "properties": {
+          "paragraphs": { "type": "integer" },
+          "words": { "type": "integer" },
+          "characters": { "type": "integer" }
+        }
+      },
+      "CompareResultDto": {
+        "type": "object",
+        "properties": {
+          "isDuplicate": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

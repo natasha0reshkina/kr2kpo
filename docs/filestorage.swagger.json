@@ -1,0 +1,67 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "File Storage Service API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/files": {
+      "post": {
+        "summary": "Upload file",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": { "type": "string", "format": "binary" }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad Request" }
+        }
+      }
+    },
+    "/api/files/{id}": {
+      "get": {
+        "summary": "Get file by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File stream",
+            "content": {
+              "application/octet-stream": {
+                "schema": { "type": "string", "format": "binary" }
+              }
+            }
+          },
+          "404": { "description": "Not Found" }
+        }
+      }
+    }
+  }
+}
